@@ -90,4 +90,3 @@ volumes:
     static-data:
     postgres-data:
     redis-data:
-

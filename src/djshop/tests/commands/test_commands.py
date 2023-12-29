@@ -1,11 +1,10 @@
 """
 Test custom Django management commands.
 """
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
 from django.core.management import call_command
 from django.db.utils import OperationalError
-
 from psycopg2 import OperationalError as Psycopg2Error
 
 

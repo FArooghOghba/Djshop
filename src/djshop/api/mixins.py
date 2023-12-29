@@ -1,8 +1,7 @@
-from typing import Dict, Optional, Sequence, Tuple, Type, TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict, Optional, Sequence, Tuple, Type
 
-from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.authentication import BaseAuthentication
-
+from rest_framework.permissions import BasePermission, IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 

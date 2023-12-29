@@ -1,6 +1,6 @@
 .PHONY: install-pre-commit-hooks
 install-pre-commit-hooks:
-	pre-commit uninstall; pre-commit install
+	pre-commit uninstall && pre-commit install
 
 .PHONY: check-pre-commit
 check-pre-commit:

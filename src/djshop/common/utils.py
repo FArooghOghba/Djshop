@@ -1,11 +1,10 @@
 from typing import Any, Dict, List, Optional, Type, Union
 
 from django.conf import settings
-from django.db.models import Model, QuerySet
-from django.shortcuts import get_object_or_404
-from django.http import Http404
 from django.core.exceptions import ImproperlyConfigured
-
+from django.db.models import Model, QuerySet
+from django.http import Http404
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
 

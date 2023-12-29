@@ -5,4 +5,3 @@ echo "--> Waiting for db to be ready"
 
 echo "--> Starting beats process"
 celery -A djshop.tasks beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
-

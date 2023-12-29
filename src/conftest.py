@@ -1,13 +1,11 @@
 """
 Conftest for tests
 """
+from datetime import datetime
 from typing import Generator
 
 import pytest
-
 from rest_framework.test import APIClient, APIRequestFactory
-
-from datetime import datetime
 
 
 @pytest.fixture

@@ -2,10 +2,8 @@ from collections import OrderedDict
 from typing import Any, List, Type, Union
 
 from django.db.models import QuerySet
-
 from rest_framework.pagination import (
-    LimitOffsetPagination as _LimitOffsetPagination,
-    BasePagination
+    BasePagination, LimitOffsetPagination as _LimitOffsetPagination,
 )
 from rest_framework.request import Request
 from rest_framework.response import Response
