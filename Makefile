@@ -36,7 +36,7 @@ flake8:
 
 .PHONY: cicd-pytest
 cicd-pytest:
-	docker compose -f docker-compose.dev.yml run --rm django sh -c "python -m pytest -c ./configs/pytest.ini"
+	docker compose -f docker-compose.dev.yml run --rm django sh -c "COVERAGE_FILE=/project/configs/.coverage python -m pytest -c ./configs/pytest.ini"
 
 .PHONY: cicd-mypy
 cicd-mypy:
