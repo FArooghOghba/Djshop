@@ -21,11 +21,6 @@ jobs:
       - name: Build env File
         run: |
           echo "${{ secrets.BACKEND_ENV }}" > .env
-      - name: Debug Logging
-        run: |
-          ls -l ./configs    # Check directory listing and permissions
-          echo "Checking .coverage file existence:"
-          ls -l ./configs/.coverage   # Check .coverage file and permissions
       - name: Test
         run: make cicd-pytest
       - name: Lint

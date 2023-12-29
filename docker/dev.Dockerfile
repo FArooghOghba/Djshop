@@ -1,7 +1,7 @@
 # This docker file is used for local development via docker-compose
 # Creating image based on official python3 image
 
-FROM python:3.11.6-alpine3.18
+FROM python:3.11-buster
 LABEL maintainer="FAroogh"
 
 # Fix python printing
