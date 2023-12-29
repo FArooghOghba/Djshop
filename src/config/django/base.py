@@ -1,5 +1,7 @@
 import os
-from src.config.env import env, BASE_DIR
+
+from src.config.env import BASE_DIR, env
+
 
 env.read_env(os.path.join(BASE_DIR, ".env"))
 
@@ -10,6 +12,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
+
 
 
 # Application definition
@@ -158,10 +161,12 @@ APP_DOMAIN = env("APP_DOMAIN", default="http://localhost:8000")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+from src.config.settings.celery import *  # noqa
 from src.config.settings.cors import *  # noqa
 from src.config.settings.jwt import *  # noqa
 from src.config.settings.sessions import *  # noqa
-from src.config.settings.celery import *  # noqa
 from src.config.settings.swagger import *  # noqa
+
+
 #from src.config.settings.sentry import * # noqa
 #from src.config.settings.email_sending import * # noqa
