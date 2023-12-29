@@ -14,7 +14,6 @@ DEBUG = True
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 
-
 # Application definition
 LOCAL_APPS = [
     'src.djshop.core.apps.CoreConfig',

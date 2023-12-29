@@ -1,10 +1,8 @@
 import enum
-
-from django.core.exceptions import ImproperlyConfigured
-
-import environ  # type: ignore
-
 from typing import Type, TypeVar
+
+import environ
+from django.core.exceptions import ImproperlyConfigured
 
 
 BASE_DIR = environ.Path(__file__) - 3

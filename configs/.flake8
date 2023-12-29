@@ -6,6 +6,7 @@ exclude =
     .git,
     __pycache__,
     migrations,
+    /*/*/*/migrations/*,
     .gitignore,
     .dockerignore,
     *.pot,
