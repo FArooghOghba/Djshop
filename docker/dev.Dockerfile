@@ -42,8 +42,8 @@ RUN python -m venv /py && \
         --no-create-home \
         django-user && \
     \
-    chown -R django-user:django-user /project/configs && \
-    chmod 755 /project/configs/.coverage && \
+    chown -R django-user:django-user /configs && \
+    chmod 755 /configs/.coverage && \
     \
     mkdir -p /vol/web/media && \
     mkdir -p /vol/web/static && \
