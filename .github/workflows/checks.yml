@@ -22,8 +22,8 @@ jobs:
         run: |
           echo "${{ secrets.BACKEND_ENV }}" > .env
       - name: Test
-        run: docker-compose run --rm django sh -c "python manage.py wait_for_db && pytest"
+        run: make cicd-pytest
       - name: Lint
-        run: make flake8
+        run: make cicd-flake8
       - name: Type Checking
-        run: make mypy
+        run: make cicd-mypy

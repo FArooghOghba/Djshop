@@ -33,3 +33,15 @@ mypy:
 .PHONY: flake8
 flake8:
 	docker compose -f docker-compose.dev.yml exec django sh -c "flake8 --config=./configs/.flake8 ./src"
+
+.PHONY: cicd-pytest
+cicd-pytest:
+	docker compose -f docker-compose.dev.yml run --rm django sh -c "python -m pytest -c ./configs/pytest.ini"
+
+.PHONY: cicd-mypy
+cicd-mypy:
+	docker compose -f docker-compose.dev.yml run --rm django sh -c "mypy --config-file ./configs/mypy.ini ./src"
+
+.PHONY: cicd-flake8
+cicd-flake8:
+	docker compose -f docker-compose.dev.yml run --rm django sh -c "flake8 --config=./configs/.flake8 ./src"
