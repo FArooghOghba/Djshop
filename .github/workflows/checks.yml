@@ -23,9 +23,9 @@ jobs:
           echo "${{ secrets.BACKEND_ENV }}" > .env
       - name: Debug Logging
         run: |
-          ls -l /project/configs    # Check directory listing and permissions
+          ls -l ./configs    # Check directory listing and permissions
           echo "Checking .coverage file existence:"
-          ls -l /project/configs/.coverage   # Check .coverage file and permissions
+          ls -l ./configs/.coverage   # Check .coverage file and permissions
       - name: Test
         run: make cicd-pytest
       - name: Lint
