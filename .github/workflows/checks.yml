@@ -21,8 +21,6 @@ jobs:
       - name: Build env File
         run: |
           echo "${{ secrets.BACKEND_ENV }}" > .env
-      - name: Show .coveragerc Contents
-        run: cat .coveragerc
       - name: Test
         run: make cicd-pytest
       - name: Lint
