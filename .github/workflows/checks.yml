@@ -23,6 +23,12 @@ jobs:
           echo "${{ secrets.BACKEND_ENV }}" > .env
       - name: Setup Docker-Compose
         run: make docker-compose-build
+      - name: Setup permissions
+        run: docker exec -it django chmod -R 777 /project/configs
+      - name: Print filesystem
+        run: |
+          docker exec -it django mount
+          docker inspect django
       - name: Test
         run: make pytest
       - name: Lint
