@@ -24,10 +24,10 @@ jobs:
       - name: Setup Docker-Compose
         run: make docker-compose-build
       - name: Setup permissions
-        run: docker exec -it djshop_django chmod -R 777 /project/configs
+        run: docker exec djshop_django chmod -R 777 /project/configs
       - name: Print filesystem
         run: |
-          docker exec -it djshop_django mount
+          docker exec djshop_django mount
           docker inspect djshop_django
       - name: Test
         run: make pytest
