@@ -42,7 +42,7 @@ RUN python -m venv /py && \
         --no-create-home \
         django-user && \
     \
-    mkdir -p .configs/cov && \
+    mkdir -p ./configs/cov && \
     chown -R django-user:django-user ./configs/cov && \
     chmod -R 777 ./configs/cov && \
     \
