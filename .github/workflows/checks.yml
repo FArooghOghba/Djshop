@@ -21,11 +21,9 @@ jobs:
       - name: Build env File
         run: |
           echo "${{ secrets.BACKEND_ENV }}" > .env
-      - name: Setup Docker-Compose
-        run: make docker-compose-build
       - name: Test
-        run: docker compose -f docker-compose.dev.yml exec -T django sh -c "python -m pytest -c ./configs/pytest.ini"
+        run: make cicd-pytest
       - name: Lint
-        run: make flake8
+        run: make cicd-flake8
       - name: Type Checking
-        run: make mypy
+        run: make cicd-mypy
