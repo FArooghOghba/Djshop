@@ -44,6 +44,7 @@ RUN python -m venv /py && \
     \
     mkdir -p /configs/cov && \
     chown -R django-user:django-user /configs/cov && \
+    chmod -R 755 /configs/cov && \
     \
     mkdir -p /vol/web/media && \
     mkdir -p /vol/web/static && \
