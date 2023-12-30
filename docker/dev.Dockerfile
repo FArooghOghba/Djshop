@@ -37,24 +37,22 @@ RUN python -m venv /py && \
     \
     rm -rf /tmp && \
     \
-#    adduser \
-#        --disabled-password \
-#        --no-create-home \
-#        django-user && \
-#    \
-#    chown -R django-user:django-user ./configs && \
-#    chmod 755 ./configs && \
-#    touch ./configs/.coverage && \
-#    chmod 777 ./configs/.coverage && \
+    adduser \
+        --disabled-password \
+        --no-create-home \
+        django-user && \
+    \
+    chown -R django-user:django-user ./configs && \
+    chmod 777 ./configs && \
     \
     mkdir -p /vol/web/media && \
     mkdir -p /vol/web/static && \
-#    chown -R django-user:django-user /vol && \
-#    chmod -R 755 /vol && \
+    chown -R django-user:django-user /vol && \
+    chmod -R 755 /vol && \
     chmod -R +x ./scripts
 
 ENV PATH="/scripts:/py/bin:$PATH"
 
-#USER django-user
+USER django-user
 
 CMD ["web_entrypoint.sh"]
