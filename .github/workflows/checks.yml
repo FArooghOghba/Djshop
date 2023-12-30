@@ -24,7 +24,7 @@ jobs:
       - name: Setup Docker-Compose
         run: make docker-compose-build
       - name: Test
-        run: make pytest
+        run: docker compose -f docker-compose.dev.yml exec -T django sh -c "python -m pytest -c ./configs/pytest.ini"
       - name: Lint
         run: make flake8
       - name: Type Checking
