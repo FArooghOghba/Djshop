@@ -42,8 +42,9 @@ RUN python -m venv /py && \
         --no-create-home \
         django-user && \
     \
-    chown -R django-user:django-user ./configs && \
-    chmod -R 777 ./configs && \
+    mkdir -p .configs/cov && \
+    chown -R django-user:django-user ./configs/cov && \
+    chmod -R 777 ./configs/cov && \
     \
     mkdir -p /vol/web/media && \
     mkdir -p /vol/web/static && \
