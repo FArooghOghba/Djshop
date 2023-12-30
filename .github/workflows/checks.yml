@@ -24,7 +24,7 @@ jobs:
       - name: Setup Docker-Compose
         run: make docker-compose-build
       - name: Setup permissions
-        run: docker compose -f docker-compose.dev.yml exec django sh -c "chmod -R 777 /project/configs"
+        run: docker exec -it djshop_django chmod -R 777 /project/configs
       - name: Print filesystem
         run: |
           docker exec -it djshop_django mount
