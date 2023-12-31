@@ -36,13 +36,12 @@ flake8:
 
 .PHONY: cicd-pytest
 cicd-pytest:
-	docker compose -f docker-compose.dev.yml run django python -m src.manage wait_for_db && \
-																	python -m pytest -c ./configs/pytest.ini
+	docker compose -f docker-compose.dev.yml exec django sh -c "python -m pytest -c ./configs/pytest.ini"
 
 .PHONY: cicd-mypy
 cicd-mypy:
-	docker compose -f docker-compose.dev.yml run django mypy --config-file ./configs/mypy.ini ./src
+	docker compose -f docker-compose.dev.yml exec django sh -c "mypy --config-file ./configs/mypy.ini ./src"
 
 .PHONY: cicd-flake8
 cicd-flake8:
-	docker compose -f docker-compose.dev.yml run django flake8 --config=./configs/.flake8 ./src
+	docker compose -f docker-compose.dev.yml exec django sh -c "flake8 --config=./configs/.flake8 ./src"
