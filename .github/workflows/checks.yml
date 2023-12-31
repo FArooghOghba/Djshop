@@ -21,6 +21,8 @@ jobs:
       - name: Build env File
         run: |
           echo "${{ secrets.BACKEND_ENV }}" > .env
+      - name: Setup Docker Compose
+        run: make docker-compose-build
       - name: Test
         run: make cicd-pytest
       - name: Lint
