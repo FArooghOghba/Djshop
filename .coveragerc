@@ -1,2 +1,2 @@
 [run]
-data_file = ./configs/cov/.coverage
+data_file = /configs/cov/.coverage
