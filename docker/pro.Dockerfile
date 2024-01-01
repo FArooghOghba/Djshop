@@ -5,15 +5,19 @@ FROM python:3.11.6-alpine3.18
 LABEL maintainer="FAroogh"
 
 # Fix python printing
+# Prevent Python from writing .pyc files.
 ENV PYTHONUNBUFFERED 1
+
+# Ensure Python output is sent directly to the terminal without buffering.
 ENV PYTHONDONTWRITEBYTECODE 1
 
-# Get the django project into the docker container
-COPY ./requirements /tmp/requirements
-COPY ./scripts /scripts
-COPY ./src /src
+# Set the working directory in the container
+WORKDIR /project
 
-WORKDIR /src
+# Get the django project into the docker container
+COPY ./requirements /project/tmp/requirements
+COPY ./scripts /project/scripts
+COPY ./src /project/src
 
 EXPOSE 8000
 
@@ -27,7 +31,7 @@ RUN python -m venv /py && \
         build-base postgresql-dev musl-dev linux-headers libffi-dev \
         libjpeg zlib-dev jpeg-dev gcc musl-dev libxslt libxml2 &&\
     \
-    /py/bin/pip install -r /temp/requirements/dev_requirements.txt && \
+    /py/bin/pip install -r /temp/requirements/pro_requirements.txt && \
     \
     rm -rf /tmp && \
     \
