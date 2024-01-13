@@ -10,6 +10,10 @@ check-pre-commit:
 docker-compose-build:
 	docker compose -f docker-compose.dev.yml up -d
 
+.PHONY: create-app
+create-app:
+	docker compose -f docker-compose.dev.yml exec django sh -c "cd src/djshop && django-admin startapp $(APP_NAME)"
+
 .PHONY: migrations
 migrations:
 	docker compose -f docker-compose.dev.yml exec django sh -c "python -m src.manage makemigrations"
