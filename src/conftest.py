@@ -53,3 +53,6 @@ def time_tracker() -> Generator[None, None, None]:
     tock = datetime.now()
     diff = tock - tick
     print(f'\n runtime: {diff.total_seconds()}')
+
+
+from src.djshop.tests.fixtures.catalog_fixtures import *  # noqa
