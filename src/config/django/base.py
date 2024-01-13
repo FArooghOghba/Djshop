@@ -19,6 +19,7 @@ LOCAL_APPS = [
     'src.djshop.core.apps.CoreConfig',
     'src.djshop.common.apps.CommonConfig',
     'src.djshop.users.apps.UsersConfig',
+    'src.djshop.catalog.apps.CatalogConfig',
     'src.djshop.authentication.apps.AuthenticationConfig',
 ]
 
