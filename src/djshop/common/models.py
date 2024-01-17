@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING, Any, Optional, TypedDict, Union
 from django.db import models
 from django.db.models import F, Q
 from django.db.models.expressions import Combinable
-from django.utils import timezone
 
 from src.config.django.base import AUTH_USER_MODEL
 
@@ -44,7 +43,7 @@ class BaseModel(models.Model):
     Note: This model is abstract and serves as a base for other models.
     """
 
-    created_at = models.DateTimeField(db_index=True, default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
     created_by: models.ForeignKey[BaseUserOrNone, Optional['BaseUser']] = (
         models.ForeignKey(
             to=AUTH_USER_MODEL, editable=False, on_delete=models.SET_NULL, null=True,

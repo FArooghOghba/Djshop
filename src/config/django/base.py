@@ -31,6 +31,7 @@ THIRD_PARTY_APPS = [
     'corsheaders',
     'drf_spectacular',
     'django_extensions',
+    'treebeard',
 ]
 
 INSTALLED_APPS = [
