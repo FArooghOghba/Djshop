@@ -1,3 +1,5 @@
+from typing import cast
+
 import pytest
 from django.core.exceptions import ValidationError
 
@@ -32,7 +34,10 @@ def test_create_root_category_return_success() -> None:
     test_category_counts = Category.objects.count()
     assert test_category_counts == 1
 
-    get_test_category_object = Category.objects.get(slug=test_category.slug)
+    get_test_category_object = cast(
+        'Category',
+        Category.objects.get(slug=test_category.slug)
+    )
     get_test_category_title = get_test_category_object.title
     assert get_test_category_title == test_category_title
 
@@ -70,17 +75,23 @@ def test_create_child_category_return_success(
 
     test_child_category_title = 'First Test Child Category'
 
-    first_test_child_category = first_test_root_category.add_child(
-        title=test_child_category_title,
-        description='This is the first test child for this category.'
+    first_test_child_category = cast(
+        'Category',
+        first_test_root_category.add_child(
+            title=test_child_category_title,
+            description='This is the first test child for this category.'
+        )
     )
 
     # Check if the child category was saved correctly
     test_category_counts = Category.objects.count()
     assert test_category_counts == 2
 
-    get_test_child_category_object = Category.objects.get(
-        slug=first_test_child_category.slug
+    get_test_child_category_object = cast(
+        'Category',
+        Category.objects.get(
+            slug=first_test_child_category.slug
+        )
     )
     get_test_child_category_title = get_test_child_category_object.title
     assert get_test_child_category_title == test_child_category_title
