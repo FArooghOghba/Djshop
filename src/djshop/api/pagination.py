@@ -2,9 +2,7 @@ from collections import OrderedDict
 from typing import Any, List, Type, Union
 
 from django.db.models import QuerySet
-from rest_framework.pagination import (
-    BasePagination, LimitOffsetPagination as _LimitOffsetPagination,
-)
+from rest_framework.pagination import BasePagination, LimitOffsetPagination
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.serializers import BaseSerializer
@@ -79,7 +77,7 @@ def get_paginated_response_context(
     return Response(data=serializer.data)
 
 
-class LimitOffsetPagination(_LimitOffsetPagination):
+class CustomLimitOffsetPagination(LimitOffsetPagination):
     default_limit = 10
     max_limit = 50
 

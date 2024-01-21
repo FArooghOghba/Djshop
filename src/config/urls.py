@@ -24,7 +24,7 @@ urlpatterns = [
         name="redoc"
     ),
     path(route='admin/', view=admin.site.urls),
-    # path(route='api/', view=include(('src.djshop.api.urls', 'api'))),
+    path(route='api/', view=include(('src.djshop.api.urls', 'api'))),
 ]
 
 

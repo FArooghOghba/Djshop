@@ -1,4 +1,4 @@
-from typing import Dict, Optional, Union
+from typing import Any, Dict, Optional, Union
 
 from django.core.exceptions import (
     PermissionDenied, ValidationError as DjangoValidationError,
@@ -54,7 +54,7 @@ def hacksoft_proposed_exception_handler(
     exc: Union[
         DjangoValidationError, Http404, PermissionDenied, exceptions.APIException
     ],
-    ctx: Dict[str, str]
+    ctx: Dict[str, Any]
 ) -> Optional[Response]:
 
     """
@@ -89,7 +89,15 @@ def hacksoft_proposed_exception_handler(
             }
             return Response(data, status=400)
 
-        return response
+        else:
+            # Return a generic error message
+            data = {
+                "message": "An unexpected error occurred.",
+                "extra": {}
+            }
+
+            # HTTP status code for "Internal Server Error"
+            return Response(data, status=500)
 
     if isinstance(exc.detail, (list, dict)):
         response.data = {
