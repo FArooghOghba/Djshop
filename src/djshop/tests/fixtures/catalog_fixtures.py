@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Generator, cast
 
 import pytest
 
@@ -43,3 +43,20 @@ def second_test_root_category() -> 'Category':
 
     test_category = CategoryFactory()
     return cast('Category', test_category)
+
+
+@pytest.fixture
+def five_test_categories() -> Generator['Category', None, None]:
+
+    """
+    Fixture that creates a batch of five test categories.
+
+    This fixture uses the CategoryFactory to create a batch of five test categories
+    and yields the created categories. The test categories can be used in tests that
+    require multiple category objects.
+
+    :return: A list of five test category objects.
+    """
+
+    test_movies = CategoryFactory.build_batch(5)
+    yield cast('Category', test_movies)
