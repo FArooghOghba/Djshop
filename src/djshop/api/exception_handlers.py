@@ -1,7 +1,7 @@
 from typing import Any, Dict, Optional, Union
 
 from django.core.exceptions import (
-    PermissionDenied, ValidationError as DjangoValidationError,
+    ObjectDoesNotExist, PermissionDenied, ValidationError as DjangoValidationError,
 )
 from django.http import Http404
 from rest_framework import exceptions
@@ -52,7 +52,8 @@ def drf_default_with_modifications_exception_handler(
 
 def hacksoft_proposed_exception_handler(
     exc: Union[
-        DjangoValidationError, Http404, PermissionDenied, exceptions.APIException
+        DjangoValidationError, Http404, PermissionDenied, exceptions.APIException,
+        ObjectDoesNotExist
     ],
     ctx: Dict[str, Any]
 ) -> Optional[Response]:
@@ -61,8 +62,11 @@ def hacksoft_proposed_exception_handler(
     Custom exception handler that modifies the default Django Rest Framework
     exception handler.
 
-    :param: exc (Union[DjangoValidationError, Http404, PermissionDenied,
-                exceptions.APIException]): The exception instance to be handled.
+    :param: exc (Union[
+                DjangoValidationError, Http404, PermissionDenied,
+                exceptions.APIException, ObjectDoesNotExist
+                ]
+        ): The exception instance to be handled.
     :param: ctx (Any): A dictionary containing the request context.
 
     :return: Optional[Response]: A Response instance if the exception is
@@ -77,6 +81,9 @@ def hacksoft_proposed_exception_handler(
 
     if isinstance(exc, PermissionDenied):
         exc = exceptions.PermissionDenied()
+
+    if isinstance(exc, ObjectDoesNotExist):
+        exc = exceptions.NotFound(f"Not Found - {exc}")
 
     response = exception_handler(exc, ctx)
 
