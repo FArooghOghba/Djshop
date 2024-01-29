@@ -8,5 +8,10 @@ urlpatterns = [
       path(
             route='front/',
             view=include(arg='src.djshop.catalog.urls.front')
-      )
+      ),
+
+      path(
+            route='admin/',
+            view=include(arg='src.djshop.catalog.urls.admin')
+      ),
 ]
