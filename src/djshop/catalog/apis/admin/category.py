@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 
 from src.djshop.api.exception_handlers import hacksoft_proposed_exception_handler
 from src.djshop.catalog.serializers.admin.category import (
-    CategoryNodeInPutSerializer, CategoryTreeOutPutModelSerializer,
+    CategoryNodeInPutSerializer, CategoryNodeOutPutModelSerializer,
 )
 from src.djshop.catalog.services.category import create_category_node
 
@@ -31,11 +31,11 @@ class CategoryNodeAPIView(APIView):
     """
 
     category_input_serializer = CategoryNodeInPutSerializer
-    category_output_serializer = CategoryTreeOutPutModelSerializer
+    category_output_serializer = CategoryNodeOutPutModelSerializer
 
     @extend_schema(
         request=CategoryNodeInPutSerializer,
-        responses=CategoryTreeOutPutModelSerializer
+        responses=CategoryNodeOutPutModelSerializer
     )
     def post(self, request: 'Request') -> 'Response':
 

@@ -12,8 +12,32 @@ from src.djshop.catalog.models import Category
 MAX_DEPTH = 5
 
 
-class CategoryTreeOutPutModelSerializer(
+class CategoryNodeOutPutModelSerializer(
     serializers.ModelSerializer['Category']
+):
+
+    """
+    Serializer class for converting Category model instances to JSON.
+
+    Meta:
+        A nested class containing metadata for the serializer.
+
+    Fields:
+        id (int): The unique identifier of the category.
+        title (str): The title of the category.
+        description (str): An optional description for the category.
+        is_public (bool): Indicates whether the category is public or not.
+    """
+
+    class Meta:
+        model = Category
+        fields = [
+            'id', 'title', 'description', 'is_public'
+        ]
+
+
+class CategoryTreeOutPutModelSerializer(
+    CategoryNodeOutPutModelSerializer
 ):
 
     """
@@ -75,11 +99,8 @@ class CategoryTreeOutPutModelSerializer(
 
         return children_serializer
 
-    class Meta:
-        model = Category
-        fields = (
-            'id', 'title', 'description', 'is_public', 'children'
-        )
+    class Meta(CategoryNodeOutPutModelSerializer.Meta):
+        fields = CategoryNodeOutPutModelSerializer.Meta.fields + ['children']
 
 
 class CategoryNodeInPutSerializer(
@@ -96,7 +117,7 @@ class CategoryNodeInPutSerializer(
         title (CharField): The title of the category.
         description (CharField): An optional description for the category.
         is_public (BooleanField): Indicates whether the category is public or not.
-        parent (SlugField): The parent category of the current category.
+        parent_node (SlugField): The parent node category of the current category.
     """
 
     title = serializers.CharField(max_length=255)
