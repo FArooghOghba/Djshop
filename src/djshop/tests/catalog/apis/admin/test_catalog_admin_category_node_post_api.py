@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 pytestmark = pytest.mark.django_db
 
 
-CATEGORY_ADMIN_DETAIL_URL = reverse('api:catalog:admin-category-node')
+CATEGORY_ADMIN_NODE_URL = reverse('api:catalog:admin-category-node')
 
 
 @pytest.mark.usefixtures('five_test_root_categories')
@@ -41,7 +41,7 @@ def test_create_admin_category_root_node_post_api_return_success(
         'description': 'This is the sixth test category.',
     }
 
-    response = api_client.post(path=CATEGORY_ADMIN_DETAIL_URL, data=payload)
+    response = api_client.post(path=CATEGORY_ADMIN_NODE_URL, data=payload)
     assert response.status_code == status.HTTP_201_CREATED
 
     # Get the queryset for all categories.
@@ -83,7 +83,7 @@ def test_create_admin_category_child_node_post_api_return_success(
         'parent_node': parent_slug
     }
 
-    response = api_client.post(path=CATEGORY_ADMIN_DETAIL_URL, data=payload)
+    response = api_client.post(path=CATEGORY_ADMIN_NODE_URL, data=payload)
     assert response.status_code == status.HTTP_201_CREATED
 
     # Get the queryset for the category tree.
@@ -127,7 +127,7 @@ def test_create_admin_category_node_with_no_title_post_api_return_error(
         'description': 'This is an invalid test category.',
     }
 
-    response = api_client.post(path=CATEGORY_ADMIN_DETAIL_URL, data=payload)
+    response = api_client.post(path=CATEGORY_ADMIN_NODE_URL, data=payload)
 
     # Check that the API returned a 400 Bad Request status code
     assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -158,7 +158,7 @@ def test_create_admin_category_node_with_nonexistent_parent_post_api_return_erro
         'parent_node': 'nonexistent-parent-slug'
     }
 
-    response = api_client.post(path=CATEGORY_ADMIN_DETAIL_URL, data=payload)
+    response = api_client.post(path=CATEGORY_ADMIN_NODE_URL, data=payload)
 
     # Check that the API returned a 400 Not Found status code
     assert response.status_code == status.HTTP_404_NOT_FOUND
@@ -187,7 +187,7 @@ def test_create_admin_category_node_with_duplicate_title_post_api_return_error(
         'description': 'This is a test category.',
     }
 
-    response = api_client.post(path=CATEGORY_ADMIN_DETAIL_URL, data=payload)
+    response = api_client.post(path=CATEGORY_ADMIN_NODE_URL, data=payload)
 
     # Check that the API returned a 400 Bad Request status code
     assert response.status_code == status.HTTP_400_BAD_REQUEST

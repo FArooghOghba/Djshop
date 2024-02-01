@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 pytestmark = pytest.mark.django_db
 
 
-CATEGORY_FRONT_LIST_URL = reverse('api:catalog:admin-category-tree')
+CATEGORY_ADMIN_TREE_URL = reverse('api:catalog:admin-category-tree')
 
 
 @pytest.mark.usefixtures('five_test_root_categories')
@@ -36,8 +36,8 @@ def test_get_admin_category_tree_get_api_return_success(
             API request factory.
     """
 
-    request = api_request.get(path=CATEGORY_FRONT_LIST_URL)
-    response = api_client.get(path=CATEGORY_FRONT_LIST_URL, request=request)
+    request = api_request.get(path=CATEGORY_ADMIN_TREE_URL)
+    response = api_client.get(path=CATEGORY_ADMIN_TREE_URL, request=request)
     assert response.status_code == status.HTTP_200_OK
 
     # Get the queryset for all categories.
@@ -68,8 +68,8 @@ def test_get_admin_category_tree_with_child_nodes_get_api_return_success(
     first_test_root_category.add_child(**first_test_category_payload)
     second_test_root_category.add_child(**second_test_category_payload)
 
-    request = api_request.get(path=CATEGORY_FRONT_LIST_URL)
-    response = api_client.get(path=CATEGORY_FRONT_LIST_URL, request=request)
+    request = api_request.get(path=CATEGORY_ADMIN_TREE_URL)
+    response = api_client.get(path=CATEGORY_ADMIN_TREE_URL, request=request)
     assert response.status_code == status.HTTP_200_OK
 
     first_test_root_category_child = first_test_root_category.get_last_child()
