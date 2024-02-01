@@ -1,12 +1,13 @@
-from typing import Any, Type
+from typing import Any, Dict, Type
 
 import factory
+from factory.django import DjangoModelFactory
 
 from src.djshop.catalog.models import Category
 from src.djshop.utils.tests.base import faker
 
 
-class CategoryFactory(factory.django.DjangoModelFactory):
+class CategoryFactory(DjangoModelFactory):
 
     """
     Factory for creating instances of the Category model.
@@ -36,3 +37,20 @@ class CategoryFactory(factory.django.DjangoModelFactory):
 
         instance = model_class(**kwargs)
         return model_class.add_root(instance=instance)
+
+    @classmethod
+    def create_payload(cls) -> Dict[str, 'factory.LazyAttribute']:
+
+        """
+        A class method that generates a payload dictionary for creating
+        a category via the API.
+
+        :return: generate a payload dictionary with consistent values
+        for creating category via the API.
+        """
+
+        test_category = cls.build()
+        return {
+            'title': test_category.title,
+            'description': test_category.description,
+        }
