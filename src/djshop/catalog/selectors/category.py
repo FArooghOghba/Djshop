@@ -24,7 +24,7 @@ def get_category_tree() -> QuerySet['Category']:
     return cast(QuerySet['Category'], categories)
 
 
-def get_category_detail(*, category_slug: str) -> 'Category':
+def get_category_node(*, category_slug: str) -> 'Category':
 
     """
     Retrieve detailed information about a specific category by its slug.
