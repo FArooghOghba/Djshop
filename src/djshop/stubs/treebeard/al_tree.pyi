@@ -1,7 +1,10 @@
-from typing import Any, Optional, Type
+from typing import Any, Optional, Type, TypeVar
 
 from django.db import models
 from treebeard.models import Node
+
+
+T = TypeVar('T')
 
 
 def get_result_class(cls: Type[AL_Node]) -> Type[AL_Node]: ...
@@ -42,7 +45,7 @@ class AL_Node(Node):
             keep_ids: bool = True
     ) -> list[Node]: ...
 
-    def add_child(self, **kwargs: Any) -> AL_Node: ...
+    def add_child(self, **kwargs: Any) -> Optional['T']: ...
 
     @classmethod
     def get_tree(
