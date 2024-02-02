@@ -27,12 +27,15 @@ class CategoryNodeOutPutModelSerializer(
         title (str): The title of the category.
         description (str): An optional description for the category.
         is_public (bool): Indicates whether the category is public or not.
+        path (str): The path of the category in the category tree.
+        depth (int): The depth of the category in the category tree.
+        numchild (int): The number of child categories under the category.
     """
 
     class Meta:
         model = Category
         fields = [
-            'id', 'title', 'description', 'is_public'
+            'id', 'path', 'depth', 'numchild', 'title', 'description', 'is_public'
         ]
 
 
@@ -58,6 +61,7 @@ class CategoryTreeOutPutModelSerializer(
         title (str): The title of the category.
         description (str): An optional description for the category.
         is_public (bool): Indicates whether the category is public or not.
+        children (list): A list of serialized child categories.
     """
 
     # Define a SerializerMethodField for children categories
@@ -100,7 +104,9 @@ class CategoryTreeOutPutModelSerializer(
         return children_serializer
 
     class Meta(CategoryNodeOutPutModelSerializer.Meta):
-        fields = CategoryNodeOutPutModelSerializer.Meta.fields + ['children']
+        fields = [
+            'id', 'title', 'description', 'is_public', 'children'
+        ]
 
 
 class CategoryNodeInPutSerializer(

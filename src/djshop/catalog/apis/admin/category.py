@@ -97,7 +97,7 @@ class CategoryTreeAPIView(APIView):
         )
 
 
-class CategoryNodeAPIView(APIView):
+class CategoryNodeGetAPIView(APIView):
 
     """
     API View for handling Category nodes.
@@ -160,6 +160,12 @@ class CategoryNodeAPIView(APIView):
         )
 
         return Response(output_serializer.data, status=status.HTTP_200_OK)
+
+
+class CategoryNodePostAPIView(APIView):
+
+    category_input_serializer = CategoryNodeInPutSerializer
+    category_output_serializer = CategoryNodeOutPutModelSerializer
 
     @extend_schema(
         request=CategoryNodeInPutSerializer,
