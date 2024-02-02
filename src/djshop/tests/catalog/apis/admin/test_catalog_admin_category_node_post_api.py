@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 pytestmark = pytest.mark.django_db
 
 
-CATEGORY_ADMIN_NODE_URL = reverse('api:catalog:admin-category-node')
+CATEGORY_ADMIN_NODE_URL = reverse('api:catalog:admin-create-category-node')
 
 
 @pytest.mark.usefixtures('five_test_root_categories')
@@ -52,9 +52,13 @@ def test_create_admin_category_root_node_post_api_return_success(
     test_category_root_node_title = test_category_root_node.title
     assert test_category_root_node_title == payload['title']
 
-    get_category_root_node_response = response.data
-    test_category_root_node_response_title = get_category_root_node_response['title']
-    assert test_category_root_node_title == test_category_root_node_response_title
+    get_category_root_node_res = response.data
+    test_category_root_node_res_title = get_category_root_node_res['title']
+    test_category_root_node_res_depth = get_category_root_node_res['depth']
+    test_category_root_node_res_num_child = get_category_root_node_res['numchild']
+    assert test_category_root_node_res_title == test_category_root_node_title
+    assert test_category_root_node_res_depth == 1
+    assert test_category_root_node_res_num_child == 0
 
 
 def test_create_admin_category_child_node_post_api_return_success(
@@ -98,10 +102,14 @@ def test_create_admin_category_child_node_post_api_return_success(
 
     category_node_response = response.data
     category_node_response_title = category_node_response['title']
+    category_node_response_depth = category_node_response['depth']
+    category_node_response_numchild = category_node_response['numchild']
 
     get_test_category_child_node = get_test_category_node_children[0]
     category_child_node_expected_title = get_test_category_child_node.title
     assert category_node_response_title == category_child_node_expected_title
+    assert category_node_response_depth == 2
+    assert category_node_response_numchild == 0
 
 
 def test_create_admin_category_node_with_no_title_post_api_return_error(
@@ -171,6 +179,7 @@ def test_create_admin_category_node_with_nonexistent_parent_post_api_return_erro
 def test_create_admin_category_node_with_duplicate_title_post_api_return_error(
         api_client: 'APIClient', first_test_root_category: 'Category'
 ) -> None:
+
     """
     Test that the API returns an error when trying to create a category
     node with a title that already exists.
