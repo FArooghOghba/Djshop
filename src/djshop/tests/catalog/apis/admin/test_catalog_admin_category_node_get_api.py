@@ -32,7 +32,7 @@ def category_admin_node_url(category_slug: str) -> str:
     """
 
     return reverse(
-        viewname='api:catalog:admin-get-category-node', args=[category_slug]
+        viewname='api:catalog:admin-category-node', args=[category_slug]
     )
 
 

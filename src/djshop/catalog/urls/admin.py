@@ -1,20 +1,20 @@
 from django.urls import path
 
 from src.djshop.catalog.apis.admin.category import (
-    CategoryNodeGetAPIView, CategoryNodePostAPIView, CategoryTreeAPIView,
+    CategoryNodeAPIView, CategoryNodeCreateAPIView, CategoryTreeAPIView,
 )
 
 
 urlpatterns = [
       path(
             route='category/<slug:category_slug>/',
-            view=CategoryNodeGetAPIView.as_view(),
-            name='admin-get-category-node'
+            view=CategoryNodeAPIView.as_view(),
+            name='admin-category-node'
       ),
 
       path(
             route='category/',
-            view=CategoryNodePostAPIView.as_view(),
+            view=CategoryNodeCreateAPIView.as_view(),
             name='admin-create-category-node'
       ),
 
