@@ -21,7 +21,9 @@ from src.djshop.catalog.serializers.admin.category import (
     CategoryNodeInPutSerializer, CategoryNodeOutPutModelSerializer,
     CategoryTreeOutPutModelSerializer,
 )
-from src.djshop.catalog.services.category import create_category_node
+from src.djshop.catalog.services.category import (
+    create_category_node, update_category_node,
+)
 
 
 class CategoryTreeAPIView(APIView):
@@ -160,6 +162,44 @@ class CategoryNodeAPIView(APIView):
         )
 
         return Response(output_serializer.data, status=status.HTTP_200_OK)
+
+    @extend_schema(
+        request=CategoryNodeInPutSerializer,
+        responses=CategoryNodeOutPutModelSerializer
+    )
+    def put(self, request: 'Request', category_slug: str) -> 'Response':
+
+        input_serializer = self.category_input_serializer(data=request.data)
+        input_serializer.is_valid(raise_exception=True)
+
+        try:
+            # Extract the validated data from the serializer
+            category_node_data = input_serializer.validated_data
+            updated_category_node = update_category_node(
+                category_slug=category_slug,
+                category_node_data=category_node_data
+            )
+
+        except (
+                DjangoValidationError, Http404, PermissionDenied, APIException,
+                ObjectDoesNotExist, IntegrityError
+        ) as exc:
+
+            exception_response = hacksoft_proposed_exception_handler(
+                exc=exc, ctx={"request": request, "view": self}
+            )
+
+            assert exception_response is not None
+            return Response(
+                data=exception_response.data,
+                status=exception_response.status_code,
+            )
+
+        output_serializer = self.category_output_serializer(
+            updated_category_node, context={'request': request}
+        )
+
+        return Response(output_serializer.data, status=status.HTTP_202_ACCEPTED)
 
 
 class CategoryNodeCreateAPIView(APIView):

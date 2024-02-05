@@ -6,6 +6,7 @@ from rest_framework.utils.serializer_helpers import ReturnDict
 from typing_extensions import Never
 
 from src.djshop.catalog.models import Category
+from src.djshop.catalog.validators import letter_validator
 
 
 # Define the maximum depth for category recursion
@@ -126,7 +127,7 @@ class CategoryNodeInPutSerializer(
         parent_node (SlugField): The parent node category of the current category.
     """
 
-    title = serializers.CharField(max_length=255)
+    title = serializers.CharField(max_length=255, validators=[letter_validator])
     description = serializers.CharField(max_length=2048)
     is_public = serializers.BooleanField()
     parent_node = serializers.SlugField(required=False, allow_null=True)

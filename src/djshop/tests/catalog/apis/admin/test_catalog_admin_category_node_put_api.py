@@ -38,6 +38,24 @@ def test_update_admin_category_node_put_api_return_success(
     api_client: 'APIClient', first_test_root_category: 'Category'
 ) -> None:
 
+    """
+    Test that updating a category node through the admin API using
+    the PUT method is successful.
+
+    This test ensures that a user can successfully update the details
+    of a category node by sending a PUT request to the category admin
+    node API endpoint with the updated payload.
+
+    :param api_client: A fixture providing the Django test client for
+    API requests.
+    :param first_test_root_category: A fixture providing the first test
+    root category object.
+
+    :return: None
+    """
+
+    # Capture the category details before the update.
+
     title_before_update = first_test_root_category.title
     description_before_update = first_test_root_category.description
     publications_before_update = first_test_root_category.is_public
@@ -56,10 +74,13 @@ def test_update_admin_category_node_put_api_return_success(
 
     test_category_after_update_res = category_update_response.data
 
+    # Assert that the updated details match the expected values.
     assert test_category_after_update_res['title'] == payload['title']
     assert test_category_after_update_res['description'] == payload['description']
     assert test_category_after_update_res['is_public'] == payload['is_public']
 
+    # Assert that the details before the update are different from
+    # the updated values.
     assert test_category_after_update_res['title'] != title_before_update
     assert test_category_after_update_res['description'] != description_before_update
     assert test_category_after_update_res['is_public'] != publications_before_update

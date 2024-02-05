@@ -1,6 +1,7 @@
 from typing import Dict, cast
 
 from src.djshop.catalog.models import Category
+from src.djshop.common.services import model_update
 
 
 def create_category_node(*, category_node_data: Dict[str, str]) -> 'Category':
@@ -12,13 +13,11 @@ def create_category_node(*, category_node_data: Dict[str, str]) -> 'Category':
     slug is provided, the new node is added as a child of the parent.
     Otherwise, the new node is added as a root node.
 
-    Args:
-        category_node_data (Dict[str, str]): The data for the new Category node.
+    :param: category_node_data (Dict[str, str]): The data for the new Category node.
             This should include the fields for the Category model, and optionally
             a 'parent_node' field with the slug of the parent Category.
 
-    Returns:
-        Category: The created Category node.
+    :returns: Category: The created Category node.
     """
 
     category_parent_node_slug = category_node_data.pop('parent_node', None)
@@ -33,3 +32,41 @@ def create_category_node(*, category_node_data: Dict[str, str]) -> 'Category':
         )
 
     return category_obj
+
+
+def update_category_node(
+    *, category_slug: str, category_node_data: Dict[str, str]
+) -> 'Category':
+
+    """
+    Update a category node in the database based on the provided
+    category_slug.
+
+    This function retrieves the category node with the given slug
+    from the database, updates the specified fields (title, description,
+    is_public) with the provided data, and saves the changes.
+
+    :param category_slug: The unique slug identifying the category node
+    to be updated.
+    :param category_node_data: A dictionary containing the updated
+    data for the category node.
+    It may include 'title', 'description', and 'is_public' fields.
+
+    :return: The updated Category node instance.
+    """
+
+    # Define the fields that can be updated.
+    fields = ['title', 'description', 'is_public']
+
+    # Retrieve the existing category node from the database based on the slug.
+    get_category_node = cast(
+        'Category',
+        Category.objects.get(slug=category_slug)
+    )
+
+    # Perform the update using the model_update function.
+    updated_category_node, has_updated = model_update(
+        instance=get_category_node, fields=fields, data=category_node_data
+    )
+
+    return updated_category_node
