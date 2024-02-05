@@ -176,6 +176,44 @@ def test_create_admin_category_node_with_nonexistent_parent_post_api_return_erro
     assert error_message == 'Not Found - Category matching query does not exist.'
 
 
+@pytest.mark.parametrize(
+    'wrong_title, error_message', (
+        ['', 'This field may not be blank.'],
+        [' ', 'This field may not be blank.'],
+        ['6char', 'title must include at least 6 letters']
+    )
+)
+def test_create_admin_wrong_data_category_node_post_api_return_error(
+    api_client: 'APIClient', wrong_title: str, error_message: str
+) -> None:
+
+    """
+     Test that POST a category with wrong data returns a 400 Bad Request error.
+
+    This parameterized test checks various cases where the provided category data
+    is invalid, such as wrong title format, min letters, empty string,
+    or white-space.
+
+    The test ensures that the API returns a 400 Bad Request status for each
+    invalid case.
+
+    :param api_client: An instance of the Django REST Framework's APIClient.
+    :param wrong_title: A parameter representing invalid title values.
+    :param error_message: A parameter representing error message.
+    :return: None
+    """
+
+    payload = {
+        'title': wrong_title,
+        'description': 'This is the edited category.',
+        'is_public': False
+    }
+
+    response = api_client.post(path=CATEGORY_ADMIN_NODE_URL, data=payload)
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.data['title'][0] == error_message
+
+
 def test_create_admin_category_node_with_duplicate_title_post_api_return_error(
         api_client: 'APIClient', first_test_root_category: 'Category'
 ) -> None:
