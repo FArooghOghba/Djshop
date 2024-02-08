@@ -14,7 +14,7 @@ def letter_validator(title: str) -> None:
     :raises: ValidationError: If the title does not contain a letter.
     """
 
-    regex = re.compile(r'\b[a-zA-Z]{5,}\b')
+    regex = re.compile(r'[a-zA-Z].*[a-zA-Z].*[a-zA-Z].*[a-zA-Z].*[a-zA-Z]')
     if regex.search(title) is None:
         raise ValidationError(
             _("title must include at least 6 letters"),
