@@ -22,7 +22,7 @@ from src.djshop.catalog.serializers.admin.category import (
     CategoryTreeOutPutModelSerializer,
 )
 from src.djshop.catalog.services.category import (
-    create_category_node, update_category_node,
+    create_category_node, delete_category_node, update_category_node,
 )
 
 
@@ -278,6 +278,51 @@ class CategoryNodeAPIView(APIView):
         )
 
         return Response(output_serializer.data, status=status.HTTP_202_ACCEPTED)
+
+    @extend_schema(
+        responses=CategoryNodeOutPutModelSerializer
+    )
+    def delete(self, request: 'Request', category_slug: str) -> 'Response':
+
+        """
+        DELETE method for deleting a category node.
+
+        This method allows admin users to delete a category node
+        by sending a DELETE request to the category node endpoint with
+        the `category_slug` parameter, and passed to the `delete_category_node`
+        function to delete a category node.
+        It then returns a response with a 204 No Content status code,
+        indicating a successful deletion.
+
+        :param request: (HttpRequest): The request object containing
+        the category data.
+        :param category_slug: (Str): The slug of the category for which
+        is being deleted.
+        :return: Response: A response with a 204 No Content status code.
+
+        :raises DoesNotExist: If the movie does not exist.
+        """
+
+        try:
+            delete_category_node(
+                category_slug=category_slug
+            )
+
+        except (
+                Http404, PermissionDenied, APIException, ObjectDoesNotExist
+        ) as exc:
+
+            exception_response = hacksoft_proposed_exception_handler(
+                exc=exc, ctx={"request": request, "view": self}
+            )
+
+            assert exception_response is not None
+            return Response(
+                data=exception_response.data,
+                status=exception_response.status_code,
+            )
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class CategoryNodeCreateAPIView(APIView):

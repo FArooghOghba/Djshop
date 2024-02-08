@@ -70,3 +70,29 @@ def update_category_node(
     )
 
     return updated_category_node
+
+
+def delete_category_node(
+    *, category_slug: str
+) -> None:
+
+    """
+    Deletes a category node with the provided category slug.
+
+    This function first retrieves the category object based on the provided
+    category_slug and then proceeds to delete the category object.
+
+    :raises Movie.DoesNotExist: If no category with the provided category_slug exists
+        in the database.
+
+    :param category_slug: (str): The unique slug identifying the category.
+
+    :return: None
+    """
+
+    get_category_node = cast(
+        'Category',
+        Category.objects.get(slug=category_slug)
+    )
+
+    get_category_node.delete()
