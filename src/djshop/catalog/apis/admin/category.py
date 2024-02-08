@@ -169,12 +169,90 @@ class CategoryNodeAPIView(APIView):
     )
     def put(self, request: 'Request', category_slug: str) -> 'Response':
 
+        """
+        Update the details of a category based on the provided
+        category slug.
+
+        This method allows clients to update the detailed representation
+        of a category by sending a PUT request to the category detail
+        endpoint with the `category_slug` parameter and providing the new
+        category details in the request body.
+        The method validates the input data using the `CategoryNodeInPutSerializer`
+        and then updates the category node using the `update_category_node` function.
+        The updated category node is serialized using
+        the `CategoryNodeOutPutModelSerializer` and returned in the response.
+
+        :param request: The request object.
+        :param category_slug: The slug of the category.
+        :return: Response containing the updated representation of the category.
+        """
+
         input_serializer = self.category_input_serializer(data=request.data)
         input_serializer.is_valid(raise_exception=True)
 
         try:
             # Extract the validated data from the serializer
             category_node_data = input_serializer.validated_data
+            updated_category_node = update_category_node(
+                category_slug=category_slug,
+                category_node_data=category_node_data
+            )
+
+        except (
+                DjangoValidationError, Http404, PermissionDenied, APIException,
+                ObjectDoesNotExist, IntegrityError
+        ) as exc:
+
+            exception_response = hacksoft_proposed_exception_handler(
+                exc=exc, ctx={"request": request, "view": self}
+            )
+
+            assert exception_response is not None
+            return Response(
+                data=exception_response.data,
+                status=exception_response.status_code,
+            )
+
+        output_serializer = self.category_output_serializer(
+            updated_category_node, context={'request': request}
+        )
+
+        return Response(output_serializer.data, status=status.HTTP_202_ACCEPTED)
+
+    @extend_schema(
+        request=CategoryNodeInPutSerializer,
+        responses=CategoryNodeOutPutModelSerializer
+    )
+    def patch(self, request: 'Request', category_slug: str) -> 'Response':
+
+        """
+        Partially update the details of a category based on the provided
+        category slug.
+
+        This method allows clients to partially update the detailed
+        representation of a category by sending a PATCH request to
+        the category detail endpoint with the `category_slug` parameter
+        and providing the new category details in the request body.
+        The method validates the input data using the `CategoryNodeInPutSerializer`
+        with `partial=True`, indicating that partial updates are allowed.
+        The category node is updated using the `update_category_node`
+        function, and the updated category node is serialized using
+        the `CategoryNodeOutPutModelSerializer` and returned in the response.
+
+        :param request: The request object.
+        :param category_slug: The slug of the category.
+        :return: Response containing the updated representation of the category.
+        """
+
+        input_serializer = self.category_input_serializer(
+            data=request.data, partial=True
+        )
+        input_serializer.is_valid(raise_exception=True)
+
+        try:
+            # Extract the validated data from the serializer
+            category_node_data = input_serializer.validated_data
+
             updated_category_node = update_category_node(
                 category_slug=category_slug,
                 category_node_data=category_node_data
