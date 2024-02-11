@@ -116,7 +116,7 @@ class MP_Node(Node):
     depth: int
     numchild: int
     gap: int
-    objects: MP_NodeManager
+    objects: models.Manager[MP_Node]
     numconv_obj_: NumConv
 
     @classmethod
