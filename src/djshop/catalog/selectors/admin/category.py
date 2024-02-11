@@ -18,7 +18,7 @@ def get_category_tree() -> QuerySet['Category']:
     """
 
     # Filter the Category objects to include only those at the root level (depth=1)
-    categories = Category.objects.filter(depth=1)
+    categories = Category.get_root_nodes()
 
     # Use cast to explicitly specify the type (helpful for type checkers like mypy)
     return cast(QuerySet['Category'], categories)
@@ -40,4 +40,4 @@ def get_category_node(*, category_slug: str) -> 'Category':
 
     get_category_obj = Category.objects.get(slug=category_slug)
 
-    return cast('Category', get_category_obj)
+    return get_category_obj

@@ -14,7 +14,7 @@ from src.djshop.api.exception_handlers import hacksoft_proposed_exception_handle
 from src.djshop.api.pagination import (
     CustomLimitOffsetPagination, get_paginated_response_context,
 )
-from src.djshop.catalog.selectors.category import (
+from src.djshop.catalog.selectors.admin.category import (
     get_category_node, get_category_tree,
 )
 from src.djshop.catalog.serializers.admin.category import (
