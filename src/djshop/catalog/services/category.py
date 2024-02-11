@@ -59,10 +59,7 @@ def update_category_node(
     fields = ['title', 'description', 'is_public']
 
     # Retrieve the existing category node from the database based on the slug.
-    get_category_node = cast(
-        'Category',
-        Category.objects.get(slug=category_slug)
-    )
+    get_category_node = Category.objects.get(slug=category_slug)
 
     # Perform the update using the model_update function.
     updated_category_node, has_updated = model_update(
@@ -90,9 +87,6 @@ def delete_category_node(
     :return: None
     """
 
-    get_category_node = cast(
-        'Category',
-        Category.objects.get(slug=category_slug)
-    )
+    get_category_node = Category.objects.get(slug=category_slug)
 
     get_category_node.delete()
