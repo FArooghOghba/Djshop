@@ -4,7 +4,7 @@ import pytest
 from django.urls import reverse
 from rest_framework import status
 
-from src.djshop.catalog.selectors.category import get_category_tree
+from src.djshop.catalog.selectors.admin.category import get_category_tree
 from src.djshop.catalog.serializers.admin.category import (
     CategoryTreeOutPutModelSerializer,
 )
