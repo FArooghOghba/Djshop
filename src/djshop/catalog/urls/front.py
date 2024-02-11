@@ -1,20 +1,20 @@
 from django.urls import path
 
 from src.djshop.catalog.apis.front.category import (
-    CategoryDetailAPIView, CategoryListAPIView,
+    CategoryNodeAPIView, CategoryTreeAPIView,
 )
 
 
 urlpatterns = [
       path(
             route='categories/',
-            view=CategoryListAPIView.as_view(),
-            name='category-list'
+            view=CategoryTreeAPIView.as_view(),
+            name='front-category-list'
       ),
 
       path(
             route='category/<slug:category_slug>/',
-            view=CategoryDetailAPIView.as_view(),
-            name='category-detail'
+            view=CategoryNodeAPIView.as_view(),
+            name='front-category-node'
       )
 ]

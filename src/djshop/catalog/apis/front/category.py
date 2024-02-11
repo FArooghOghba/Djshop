@@ -13,15 +13,15 @@ from src.djshop.api.exception_handlers import hacksoft_proposed_exception_handle
 from src.djshop.api.pagination import (
     CustomLimitOffsetPagination, get_paginated_response_context,
 )
-from src.djshop.catalog.selectors.category import (
-    get_category_detail, get_category_list,
+from src.djshop.catalog.selectors.front.category import (
+    get_category_node, get_category_tree,
 )
 from src.djshop.catalog.serializers.front.category import (
     CategoryOutPutModelSerializer,
 )
 
 
-class CategoryListAPIView(APIView):
+class CategoryTreeAPIView(APIView):
 
     """
     API view for retrieving a list of category.
@@ -69,7 +69,7 @@ class CategoryListAPIView(APIView):
         """
 
         try:
-            category_list_queryset = get_category_list()
+            category_list_queryset = get_category_tree()
 
         except (
                 DjangoValidationError, Http404, PermissionDenied, APIException
@@ -94,10 +94,10 @@ class CategoryListAPIView(APIView):
         )
 
 
-class CategoryDetailAPIView(APIView):
+class CategoryNodeAPIView(APIView):
 
     """
-    API view for retrieving a category detail.
+    API view for retrieving a category node.
 
     This view allows clients to retrieve the detailed representation of a category.
     The view uses the `CategoryDetailOutPutModelSerializer` to serialize the output
@@ -118,6 +118,7 @@ class CategoryDetailAPIView(APIView):
         responses=CategoryOutPutModelSerializer,
     )
     def get(self, request: 'Request', category_slug: str) -> 'Response':
+
         """
         Retrieves the detail of a category based on the provided
         category slug.
@@ -139,7 +140,7 @@ class CategoryDetailAPIView(APIView):
         """
 
         try:
-            category_query = get_category_detail(category_slug=category_slug)
+            category_query = get_category_node(category_slug=category_slug)
 
         except (
             DjangoValidationError, Http404, PermissionDenied, APIException,
