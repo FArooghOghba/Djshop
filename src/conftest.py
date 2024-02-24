@@ -5,11 +5,12 @@ from datetime import datetime
 from typing import Generator
 
 import pytest
+from django.test import Client
 from rest_framework.test import APIClient, APIRequestFactory
 
 
 @pytest.fixture
-def api_client() -> APIClient:
+def api_client() -> 'APIClient':
 
     """
     Fixture for creating an instance of the Django REST Framework's APIClient.
@@ -20,7 +21,18 @@ def api_client() -> APIClient:
 
 
 @pytest.fixture
-def api_request() -> APIRequestFactory:
+def client() -> 'Client':
+
+    """
+    Fixture for creating an instance of the Django Client.
+    :return: Client()
+    """
+
+    return Client()
+
+
+@pytest.fixture
+def api_request() -> 'APIRequestFactory':
 
     """
     Fixture for creating an instance of the APIRequestFactory.
@@ -58,3 +70,4 @@ def time_tracker() -> Generator[None, None, None]:
 from src.djshop.tests.fixtures.category_fixtures import *  # noqa
 from src.djshop.tests.fixtures.options_fixtures import *  # noqa
 from src.djshop.tests.fixtures.product_class_fixtures import *  # noqa
+from src.djshop.tests.fixtures.user_fixtures import *  # noqa
