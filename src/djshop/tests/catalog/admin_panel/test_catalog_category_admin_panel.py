@@ -77,7 +77,36 @@ def test_catalog_category_admin_panel_list_display_view(
 
     # Check if the is_public field value is present in the response content
     test_category_publication = first_test_root_category.is_public
-    assert bytes(str(test_category_publication), 'utf-8') in response.content
+    assert str(test_category_publication) in response.content.decode()
+
+
+def test_category_admin_panel_search_fields_list_display_view(
+        client: 'Client', first_test_superuser: 'BaseUser',
+        first_test_root_category: 'Category'
+) -> None:
+
+    """
+    Test the list display view search fields of the Category admin panel.
+
+    :param client: Django test client.
+    :param first_test_superuser: Superuser instance for authentication.
+    :param first_test_root_category: Category instance to be displayed.
+    """
+
+    client.force_login(user=first_test_superuser)
+
+    search_input = first_test_root_category.title
+    response = client.get(
+        path=ADMIN_PANEL_CATEGORY_OBJECT_LIST_URL,
+        data={'q': search_input}
+    )
+
+    # Check if the response status is 200 OK
+    assert response.status_code == status.HTTP_200_OK
+
+    # Check if the option grou[ title is present in the response content
+    test_option_group_title = first_test_root_category.title
+    assert test_option_group_title in response.content.decode()
 
 
 def test_category_admin_panel_add_object_view(

@@ -1,7 +1,9 @@
 import factory
 from factory.django import DjangoModelFactory
 
-from src.djshop.catalog.models import Option, OptionGroup, ProductClass
+from src.djshop.catalog.models import (
+    Option, OptionGroup, OptionGroupValues, ProductClass,
+)
 from src.djshop.utils.tests.base import faker
 
 
@@ -15,6 +17,19 @@ class OptionGroupFactory(DjangoModelFactory):
         model = OptionGroup
 
     title = factory.LazyAttribute(lambda _: faker.sentence(nb_words=3))
+
+
+class OptionGroupValuesFactory(DjangoModelFactory):
+
+    """
+    Factory for creating instances of the OptionGroupValues model.
+    """
+
+    class Meta:
+        model = OptionGroupValues
+
+    title = factory.LazyAttribute(lambda _: faker.sentence(nb_words=3))
+    groups = factory.SubFactory(factory=OptionGroupFactory)
 
 
 class OptionFactory(DjangoModelFactory):
