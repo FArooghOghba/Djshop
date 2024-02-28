@@ -190,6 +190,7 @@ class ProductClass(BaseModel):
         verbose_name = "Product Class"
         verbose_name_plural = "Product Classes"
 
+    @property
     def has_attributes(self) -> bool:
         return self.attributes.exists()
 

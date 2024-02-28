@@ -3,12 +3,15 @@ from typing import TYPE_CHECKING, cast
 import pytest
 
 from src.djshop.tests.factories.product_class_factories import (
-    OptionGroupFactory, OptionGroupValuesFactory, ProductClassFactory,
+    AttributeFactory, OptionGroupFactory, OptionGroupValuesFactory,
+    ProductClassFactory,
 )
 
 
 if TYPE_CHECKING:
-    from src.djshop.catalog.models import OptionGroup, ProductClass
+    from src.djshop.catalog.models import (
+        Attribute, OptionGroup, OptionGroupValues, ProductClass,
+    )
 
 
 @pytest.fixture
@@ -36,24 +39,41 @@ def first_test_option_group() -> 'OptionGroup':
     Fixture for creating a test option group.
 
     This fixture creates and returns a test option group object using
-    the `OptionGroupFactory` factory.
+    the `OptionGroupFactory`.
 
-    :return: Review: A test option group object.
+    :return: OptionGroup: A test option group object.
     """
 
-    return cast('OptionGroup', OptionGroupFactory)
+    test_option_group = OptionGroupFactory()
+    return cast('OptionGroup', test_option_group)
 
 
 @pytest.fixture
-def first_test_option_group_values() -> 'OptionGroupValuesFactory':
+def first_test_attribute() -> 'Attribute':
+
+    """
+    Fixture for creating a test attribute.
+
+    This fixture creates and returns a test attribute object using
+    the `AttributeFactory`.
+
+    :return: Attribute: A test attribute object.
+    """
+
+    test_attribute = AttributeFactory()
+    return cast('Attribute', test_attribute)
+
+
+@pytest.fixture
+def first_test_option_group_values() -> 'OptionGroupValues':
 
     """
     Fixture for creating a test option group values.
 
     This fixture creates and returns a test "option group values" object using
-    the `OptionGroupValuesFactory` factory.
+    the `OptionGroupValuesFactory`.
 
-    :return: Review: A test option group values object.
+    :return: OptionGroupValues: A test option group values object.
     """
 
-    return OptionGroupValuesFactory()
+    return cast('OptionGroupValues', OptionGroupValuesFactory)

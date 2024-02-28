@@ -16,7 +16,9 @@ class CategoryFactory(DjangoModelFactory):
     class Meta:
         model = Category
 
-    title = factory.LazyAttribute(lambda _: faker.sentence(nb_words=3))
+    title = factory.LazyAttribute(
+        lambda _: faker.sentence(nb_words=3, variable_nb_words=False)
+    )
     slug = factory.LazyAttribute(lambda _: faker.slug())
     description = factory.LazyAttribute(lambda x: faker.text())
 

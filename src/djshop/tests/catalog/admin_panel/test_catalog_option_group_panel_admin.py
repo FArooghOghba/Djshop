@@ -8,7 +8,7 @@ from rest_framework import status
 if TYPE_CHECKING:
     from django.test import Client
 
-    from src.djshop.catalog.models import OptionGroup
+    from src.djshop.catalog.models import Option, OptionGroup
     from src.djshop.users.models import BaseUser
 
 
@@ -21,6 +21,10 @@ ADMIN_PANEL_OPTION_GROUP_OBJECT_LIST_URL = reverse(
 
 ADMIN_PANEL_OPTION_GROUP_OBJECT_ADD_URL = reverse(
     viewname='admin:catalog_optiongroup_add'
+)
+
+ADMIN_PANEL_OPTION_OBJECT_LIST_URL = reverse(
+    viewname='admin:catalog_option_changelist'
 )
 
 
@@ -148,7 +152,7 @@ def test_option_group_admin_panel_delete_object_view(
 ) -> None:
 
     """
-    Test the "delete" object view of the Category admin panel.
+    Test the "delete" object view of the Option Group admin panel.
 
     :param client: Django test client.
     :param first_test_superuser: Superuser instance for authentication.
@@ -161,3 +165,48 @@ def test_option_group_admin_panel_delete_object_view(
     )
     response = client.get(path=url)
     assert response.status_code == status.HTTP_200_OK
+
+
+def test_option_admin_panel_list_display_view(
+        client: 'Client', first_test_superuser: 'BaseUser',
+        first_test_option: 'Option'
+) -> None:
+
+    """
+    Test the list display view of the Option admin panel.
+
+    :param client: Django test client.
+    :param first_test_superuser: Superuser instance for authentication.
+    :param first_test_option: Option instance to be displayed.
+    """
+
+    client.force_login(first_test_superuser)
+    response = client.get(path=ADMIN_PANEL_OPTION_OBJECT_LIST_URL)
+
+    assert first_test_option.title in response.content.decode()
+    assert first_test_option.type in response.content.decode()
+    assert str(first_test_option.required) in response.content.decode()
+
+
+def test_option_admin_panel_list_display_view_search_fields(
+        client: 'Client', first_test_superuser: 'BaseUser',
+        first_test_option: 'Option'
+) -> None:
+
+    """
+    Test the list display view search fields of the Option admin panel.
+
+    :param client: Django test client.
+    :param first_test_superuser: Superuser instance for authentication.
+    :param first_test_option: Option instance to be displayed.
+    """
+
+    client.force_login(first_test_superuser)
+
+    search_input = first_test_option.title
+    response = client.get(
+        path=ADMIN_PANEL_OPTION_OBJECT_LIST_URL,
+        data={'q': search_input}
+    )
+
+    assert first_test_option.title in response.content.decode()
