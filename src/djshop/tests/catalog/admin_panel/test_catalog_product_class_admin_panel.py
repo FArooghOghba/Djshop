@@ -64,6 +64,8 @@ def test_product_class_admin_panel_list_display_view(
     :param client: Django test client.
     :param first_test_superuser: Superuser instance for authentication.
     :param first_test_product_class: Product Class instance to be displayed.
+    :param first_test_attribute: Attribute instance to be added
+     to the product class instance.
     """
 
     first_test_product_class.attributes.add(first_test_attribute)
@@ -101,6 +103,41 @@ def test_product_class_admin_panel_list_display_view_search_fields(
     response = client.get(
         path=ADMIN_PANEL_PRODUCT_CLASS_OBJECT_LIST_URL,
         data={'q': search_input}
+    )
+
+    # Check if the response status is 200 OK
+    assert response.status_code == status.HTTP_200_OK
+
+    # Check if the product class title is present in the response content
+    test_product_class_title = first_test_product_class.title
+    assert test_product_class_title in response.content.decode()
+
+
+def test_product_class_admin_panel_list_display_view_filter(
+        client: 'Client', first_test_superuser: 'BaseUser',
+        first_test_product_class: 'ProductClass',
+        first_test_attribute: 'Attribute'
+) -> None:
+
+    """
+    Test the list display view filter the Product Class admin panel.
+
+    :param client: Django test client.
+    :param first_test_superuser: Superuser instance for authentication.
+    :param first_test_product_class: Product Class instance to be displayed.
+    :param first_test_attribute: Attribute instance to be added
+     to the product class instance.
+    """
+
+    first_test_product_class.attributes.add(first_test_attribute)
+    first_test_product_class.save()
+
+    client.force_login(user=first_test_superuser)
+
+    filter_input = '< 5'
+    response = client.get(
+        path=ADMIN_PANEL_PRODUCT_CLASS_OBJECT_LIST_URL,
+        data={'attributes_count': filter_input}
     )
 
     # Check if the response status is 200 OK

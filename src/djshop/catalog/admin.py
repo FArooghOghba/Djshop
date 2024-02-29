@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING, Any, List, Optional, Tuple
 
 import django_stubs_ext
 from django.contrib import admin
+from django.db.models import Count
 from treebeard.admin import TreeAdmin
 from treebeard.forms import movenodeform_factory
 
@@ -174,11 +175,14 @@ class AttributesCountFilter(admin.SimpleListFilter):
         Filters the queryset based on the selected filter option.
         """
 
-        # .annotate(attributes_count=Count(attributes_count))
+        product_class_queryset = queryset.annotate(
+            attributes_count=Count('attributes')
+        )
+
         if self.value() == '< 5':
-            return queryset.filter(attributes_count__lt=5)
+            return product_class_queryset.filter(attributes_count__lt=5)
         if self.value() == '> 5':
-            return queryset.filter(atrributes_count__gt=5)
+            return product_class_queryset.filter(attributes_count__gt=5)
 
         # Default return statement
         return queryset
@@ -215,14 +219,14 @@ class ProductClassAdmin(admin.ModelAdmin[ProductClass]):
     # Inlines to display related models directly on the product class admin page
     inlines = [AttributeInline]
 
-    def attributes_count(self, product_class_opj: 'ProductClass') -> int:
+    def attributes_count(self, product_class_obj: 'ProductClass') -> int:
 
         """
         Returns the number of attributes associated with a product class object.
         Used for displaying the attribute count in the admin list view.
         """
 
-        return product_class_opj.attributes.count()
+        return product_class_obj.attributes.count()
 
     @admin.action(description='Enable track stock')
     def enable_track_stock(
