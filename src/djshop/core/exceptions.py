@@ -24,3 +24,17 @@ class ApplicationError(Exception):
 
         self.message = message
         self.extra = extra or {}
+
+
+class DuplicateImageException(Exception):
+
+    """
+    Exception raised when attempting to create or save
+    an image that already exists.
+
+    This exception indicates that an image with the same
+    content already exists, and prevents the creation or
+    saving of duplicate images.
+    """
+
+    pass

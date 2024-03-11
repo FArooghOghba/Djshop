@@ -21,6 +21,7 @@ LOCAL_APPS = [
     'src.djshop.users.apps.UsersConfig',
     'src.djshop.catalog.apps.CatalogConfig',
     'src.djshop.authentication.apps.AuthenticationConfig',
+    'src.djshop.media.apps.MediaConfig',
 ]
 
 THIRD_PARTY_APPS = [
@@ -132,8 +133,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = '/vol/web/static/'
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = '/vol/web/media/'
+MEDIA_URL = '/media/'
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 REST_FRAMEWORK = {

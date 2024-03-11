@@ -30,6 +30,10 @@ create-superuser:
 pytest:
 	docker compose -f docker-compose.dev.yml exec django sh -c "python -m pytest -c ./configs/pytest.ini"
 
+.PHONY: pytest-file
+pytest-file:
+	docker compose -f docker-compose.dev.yml exec django sh -c "python -m pytest -c ./configs/pytest.ini $(FILE)"
+
 .PHONY: mypy
 mypy:
 	docker compose -f docker-compose.dev.yml exec django sh -c "mypy --config-file ./configs/mypy.ini ./src"
