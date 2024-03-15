@@ -1,10 +1,12 @@
 from io import BytesIO
 
+import factory
 from django.core.files.uploadedfile import SimpleUploadedFile
 from factory.django import DjangoModelFactory
 from PIL import Image as PILImage  # type: ignore
 
 from src.djshop.media.models import Image
+from src.djshop.utils.tests.base import faker
 
 
 def sample_test_image_file(
@@ -48,6 +50,7 @@ class ImageFactory(DjangoModelFactory):
     Factory for creating instances of the Image model.
     """
 
+    title = factory.LazyAttribute(lambda _: faker.sentence(nb_words=3))
     image = sample_test_image_file()
 
     class Meta:

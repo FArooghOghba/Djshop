@@ -103,6 +103,28 @@ def test_create_image_return_success() -> None:
     assert get_image.file_size > 0
 
 
+def test_update_image_return_success(first_test_image: 'Image') -> None:
+
+    """
+    Test updating an existing image.
+
+    This test updates the title of an existing image and asserts
+    that the changes are successfully saved to the database.
+
+    :param first_test_image: The initial image object created for the test.
+    :return: None
+    """
+
+    test_image_title = 'image title edited'
+    first_test_image.title = test_image_title
+    first_test_image.save()
+    first_test_image.full_clean()
+
+    get_test_image = Image.objects.get(pk=first_test_image.pk)
+    assert get_test_image.title == test_image_title
+    assert get_test_image.image == first_test_image.image
+
+
 def test_create_image_with_duplicate_existence_content_return_error() -> None:
 
     """
@@ -118,9 +140,9 @@ def test_create_image_with_duplicate_existence_content_return_error() -> None:
         title='first test title', image=duplicate_test_image_file
     )
 
-    second_test_with_duplicate_image = Image()
-    second_test_with_duplicate_image.title = 'second test title'
-    second_test_with_duplicate_image.image = duplicate_test_image_file
+    second_test_with_duplicate_image = Image.objects.create(
+        title='first test title', image=duplicate_test_image_file
+    )
 
     with pytest.raises(DuplicateImageException):
         second_test_with_duplicate_image.full_clean()

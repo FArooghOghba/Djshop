@@ -65,13 +65,15 @@ class Image(BaseModel):
         and stores them in the corresponding fields of the Image instance.
         """
 
-        self.file_size = self.image.size
+        if not self.image.closed:
 
-        hasher = hashlib.sha1()
-        for chunk in self.image.file.chunks():
-            hasher.update(chunk)
+            self.file_size = self.image.size
 
-        self.file_hash = hasher.hexdigest()
+            hasher = hashlib.sha1()
+            for chunk in self.image.file.chunks():
+                hasher.update(chunk)
+
+            self.file_hash = hasher.hexdigest()
 
     def is_duplicate(self) -> bool:
 
@@ -79,13 +81,18 @@ class Image(BaseModel):
         Check if the image is a duplicate.
 
         This method calculates the hash and size of the image file
-        and checks if any other image in the database has the same hash.
+        and checks if any other image in the database has the same hash,
+        excluding the current instance if it has been saved to the database.
 
         :return: bool: True if a duplicate image is found, False otherwise.
         """
 
         self.calculate_hash_and_size_for_file()
-        return Image.objects.filter(file_hash=self.file_hash).exists()
+
+        queryset = Image.objects.filter(file_hash=self.file_hash)
+        if self.pk is not None:
+            queryset = queryset.exclude(pk=self.pk)
+        return queryset.exists()
 
     def clean(self) -> None:
 
