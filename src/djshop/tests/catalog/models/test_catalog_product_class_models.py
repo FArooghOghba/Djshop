@@ -35,7 +35,7 @@ def test_create_product_class_return_success() -> None:
     assert get_product_class.track_stock is True
 
     # Ensure initially no attributes exist
-    assert not get_product_class.has_attributes()
+    assert not get_product_class.has_attributes
 
 
 def test_create_product_class_with_duplicate_title_return_error(
@@ -83,7 +83,7 @@ def test_create_product_class_attribute_existence_return_success(
     first_test_product_class.attributes.create(title="Test Attribute")
 
     # Ensure attributes exist after creation
-    assert first_test_product_class.has_attributes()
+    assert first_test_product_class.has_attributes
 
 
 def test_create_product_class_with_options_return_success(

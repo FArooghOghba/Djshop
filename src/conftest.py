@@ -67,8 +67,10 @@ def time_tracker() -> Generator[None, None, None]:
     print(f'\n runtime: {diff.total_seconds()}')
 
 
+from src.djshop.tests.fixtures.attribute_fixtures import *  # noqa
 from src.djshop.tests.fixtures.category_fixtures import *  # noqa
 from src.djshop.tests.fixtures.media_fixtures import *  # noqa
 from src.djshop.tests.fixtures.options_fixtures import *  # noqa
 from src.djshop.tests.fixtures.product_class_fixtures import *  # noqa
+from src.djshop.tests.fixtures.product_fixtures import *  # noqa
 from src.djshop.tests.fixtures.user_fixtures import *  # noqa
