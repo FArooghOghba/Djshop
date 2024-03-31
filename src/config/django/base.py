@@ -22,6 +22,7 @@ LOCAL_APPS = [
     'src.djshop.catalog.apps.CatalogConfig',
     'src.djshop.authentication.apps.AuthenticationConfig',
     'src.djshop.media.apps.MediaConfig',
+    'src.djshop.inventory.apps.InventoryConfig',
 ]
 
 THIRD_PARTY_APPS = [
