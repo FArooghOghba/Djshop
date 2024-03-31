@@ -7,7 +7,8 @@ from treebeard.admin import TreeAdmin
 from treebeard.forms import movenodeform_factory
 
 from src.djshop.catalog.models import (
-    Attribute, Category, Option, OptionGroup, OptionGroupValues, ProductClass,
+    Attribute, AttributeValue, Category, Image, Option, OptionGroup,
+    OptionGroupValues, Product, ProductClass, Recommendations,
 )
 
 
@@ -240,3 +241,73 @@ class ProductClassAdmin(admin.ModelAdmin[ProductClass]):
             request=request,
             message=f'{enabled_track_stock} product track stock successfully enabled'
         )
+
+
+class ProductAttributeInline(admin.TabularInline[AttributeValue, Product]):
+
+    """
+    Inline admin class for displaying and managing attributes directly
+    on the Product admin page. This allows for efficient editing
+    of related attributes within the same context.
+
+    This inline allows users to:
+        - View and edit existing attributes associated with a product class.
+        - Create new attributes directly on the product class edit page.
+        - Use autocomplete to quickly select existing option groups for
+        new attributes.
+    """
+
+    model = AttributeValue
+    extra = 2
+
+
+class RecommendationsInline(admin.TabularInline[Recommendations, Product]):
+
+    """
+    Inline admin class for displaying and managing recommendations directly
+    on the Product admin page. This allows for efficient editing
+    of related recommendations within the same context.
+    """
+
+    model = Recommendations
+    fk_name = 'primary'
+    extra = 2
+
+
+class ProductImageInline(admin.TabularInline[Image, Product]):
+
+    model = Image
+    extra = 2
+
+
+class CategoryInline(admin.TabularInline[Any, Product]):
+
+    model = Product.categories.through
+    extra = 2
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin[Product]):
+
+    """
+    Admin configuration for the Product model.
+
+    This class provides a comprehensive interface for managing products,
+    which define the structure and properties of products. Users can view,
+    edit, and perform actions on product classes, as well as access-related
+    attributes and options.
+    """
+
+    list_display = (
+        'title',
+        'upc',
+        'is_public',
+    )
+    search_fields = ('title__istartswith', 'upc')
+    prepopulated_fields = {
+        'slug': ['title']
+    }
+    inlines = [
+        ProductAttributeInline, RecommendationsInline, ProductImageInline,
+        CategoryInline
+    ]

@@ -301,6 +301,9 @@ class Product(BaseModel):
     recommendations = models.ManyToManyField(
         to='catalog.Product', through='catalog.Recommendations', blank=True
     )
+    categories = models.ManyToManyField(
+        to=Category, related_name='categories'
+    )
 
     @property
     def main_image(self) -> Optional["Image"]:
